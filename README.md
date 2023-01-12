@@ -3,9 +3,9 @@ Script Ansible para instalação automatizada de Prometheus em OS Debian ou deri
 
 ### Executando o playbook
 
-* Primeiro adicione o IP dos servidores no arquivos hosts
+* Primeiro passo será adicionar os IP's dos servidores qual vamos instalar o Prometheus no arquivos hosts
 
-* Após adicionar o IP dos servidores no arquivos hosts basta executar o comando
+* Após adicionar os IP's dos servidores no arquivos hosts basta executar o comando abaixo
 
 * Ansible-playbook -i hosts playbook.yml -K
 
