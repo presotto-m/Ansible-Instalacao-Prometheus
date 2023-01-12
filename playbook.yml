@@ -1,0 +1,124 @@
+---
+- name: Instalar Prometheus
+  hosts: servidores
+  remote_user: <USUARIO DO SERVIDOR REMOTO>
+  become: true
+  become_user: root
+
+  tasks:
+  - name: Criar grupo prometheus
+    ansible.builtin.group:
+      name: prometheus
+      state: present
+      system: true
+
+  - name: Criar usuario prometheus
+    ansible.builtin.user:
+      name: prometheus
+      shell: /bin/nologin
+      system: true
+      group: prometheus
+  
+  - name: download prometheus
+    get_url:
+      url: https://github.com/prometheus/prometheus/releases/download/v2.41.0/prometheus-2.41.0.linux-amd64.tar.gz
+      dest: /tmp
+
+  - name: Unzip prometheus
+    unarchive:
+      remote_src: yes
+      src: /tmp/prometheus-2.41.0.linux-amd64.tar.gz
+      dest: /tmp
+
+  - name: mover bin prometheus to /usr/local/bin
+    copy:
+      src: /tmp/prometheus-2.41.0.linux-amd64/prometheus
+      dest: /usr/local/bin/prometheus
+      remote_src: yes
+      owner: prometheus
+      group: prometheus
+      mode: 0755
+  
+  - name: move bin promtool to /usr/local/bin
+    copy:
+      src: /tmp/prometheus-2.41.0.linux-amd64/promtool
+      dest: /usr/local/bin/promtool
+      remote_src: yes
+      owner: prometheus
+      group: prometheus
+      mode: 0755
+
+  - name: mover bin promtool to /usr/local/bin
+    copy:
+      src: /tmp/prometheus-2.41.0.linux-amd64/promtool
+      dest: /usr/local/bin/promtool
+      remote_src: yes
+      owner: prometheus
+      group: prometheus
+      mode: 0755
+
+  - name: Criar diretorio /etc/prometheus
+    file:
+      path: /etc/prometheus/
+      state: directory
+      owner: prometheus
+      group: prometheus
+      mode: 0775
+
+  - name: mover bin prometheus.yml to /usr/local/bin
+    copy:
+      src: /tmp/prometheus-2.41.0.linux-amd64/prometheus.yml
+      dest: /etc/prometheus/prometheus.yml
+      remote_src: yes
+      owner: prometheus
+      group: prometheus
+      mode: 0755
+
+  - name: mover bin console_libraries to /usr/local/bin
+    copy:
+      src: /tmp/prometheus-2.41.0.linux-amd64/console_libraries
+      dest: /etc/prometheus/console_libraries
+      remote_src: yes
+      owner: prometheus
+      group: prometheus
+      mode: 0755
+
+  - name: mover bin promtool para /usr/local/bin
+    copy:
+      src: /tmp/prometheus-2.41.0.linux-amd64/consoles
+      dest: /etc/prometheus/consoles
+      remote_src: yes
+      owner: prometheus
+      group: prometheus
+      mode: 0755
+
+  - name: Criar diretório /var/lib/prometheus
+    file:
+      path: /var/lib/prometheus
+      state: directory
+      owner: prometheus
+      group: prometheus
+      mode: 0775
+
+  - name: Criar diretório /var/log/prometheus
+    file:
+      path: /var/log/prometheus
+      state: directory
+      owner: prometheus
+      group: prometheus
+      mode: 0775
+
+  - name: instale o arquivo unit no systemd
+    template:
+      src: service_systemd/prometheus.service
+      dest: /etc/systemd/system/prometheus.service
+      owner: prometheus
+      group: prometheus
+      mode: 0600
+
+  - name: configurar o systemd para usar o serviço
+    systemd:
+      daemon_reload: yes
+      enabled: yes
+      state: started
+      name: prometheus.service
