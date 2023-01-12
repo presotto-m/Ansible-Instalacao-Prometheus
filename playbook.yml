@@ -30,7 +30,7 @@
       src: /tmp/prometheus-2.41.0.linux-amd64.tar.gz
       dest: /tmp
 
-  - name: mover bin prometheus to /usr/local/bin
+  - name: mover bin prometheus para /usr/local/bin
     copy:
       src: /tmp/prometheus-2.41.0.linux-amd64/prometheus
       dest: /usr/local/bin/prometheus
@@ -39,7 +39,7 @@
       group: prometheus
       mode: 0755
   
-  - name: move bin promtool to /usr/local/bin
+  - name: move bin promtool para /usr/local/bin
     copy:
       src: /tmp/prometheus-2.41.0.linux-amd64/promtool
       dest: /usr/local/bin/promtool
@@ -48,7 +48,7 @@
       group: prometheus
       mode: 0755
 
-  - name: mover bin promtool to /usr/local/bin
+  - name: mover bin promtool para /usr/local/bin
     copy:
       src: /tmp/prometheus-2.41.0.linux-amd64/promtool
       dest: /usr/local/bin/promtool
@@ -65,7 +65,7 @@
       group: prometheus
       mode: 0775
 
-  - name: mover bin prometheus.yml to /usr/local/bin
+  - name: mover bin prometheus.yml para /usr/local/bin
     copy:
       src: /tmp/prometheus-2.41.0.linux-amd64/prometheus.yml
       dest: /etc/prometheus/prometheus.yml
@@ -74,7 +74,7 @@
       group: prometheus
       mode: 0755
 
-  - name: mover bin console_libraries to /usr/local/bin
+  - name: mover bin console_libraries para /usr/local/bin
     copy:
       src: /tmp/prometheus-2.41.0.linux-amd64/console_libraries
       dest: /etc/prometheus/console_libraries
